@@ -26,10 +26,6 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<CreditCardService>();
 
 
-var app = builder.Build();
-
-
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
@@ -40,6 +36,11 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
+
+var app = builder.Build();
+
+
+
 
 
 // Configure the HTTP request pipeline.
