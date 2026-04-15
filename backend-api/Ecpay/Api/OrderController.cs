@@ -15,7 +15,7 @@ namespace Ecpay.Controllers.Api
             _orderservice = orderService;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public IActionResult CreateOrder([FromBody] CreateOrderInputModel input)
         {
             var order = new OrderModel
@@ -41,6 +41,7 @@ namespace Ecpay.Controllers.Api
 
         }
 
+        [HttpGet("Detail/{id}")]
         public IActionResult GetOrder(int id)
         {
             var order = _orderservice.GetOrderId(id);

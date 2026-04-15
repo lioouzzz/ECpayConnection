@@ -85,6 +85,8 @@ namespace Ecpay.Controllers.Api
 
         }
 
+        [HttpPost("Result")]
+
         public IActionResult Result([FromForm] EcpayCallbackModel callback)
         {
             var orderNo = Uri.EscapeDataString(callback.MerchantTradeNo ?? string.Empty);
