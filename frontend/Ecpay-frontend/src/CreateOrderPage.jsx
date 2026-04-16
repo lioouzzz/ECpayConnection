@@ -49,6 +49,7 @@ function CreateOrder() {
       setMessage("訂單建立中");
       const response = await fetch(`http://localhost:5170/api/order/create`, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           totalAmount: data.totalAmount,
           tradeDesc: data.tradeDesc,
@@ -60,17 +61,17 @@ function CreateOrder() {
         const txt = await response.text();
         throw new Error(txt || "建立訂單失敗");
       }
-      const data = await response.json();
-
+      const dataJson = await response.json();
       //建立成功之後跳轉訂單詳細頁面
-      window.location.href = `/Order/Detail/${data.Id}`;
+      console.log(dataJson);
+      window.location.href = dataJson.redirectUrl;
     } catch (error) {
-      setMessage(error.message || "建立訂單失敗");
+      setMessage(error.message + "建立訂單失敗");
     }
   };
 
   return (
-    <div className="container md-5">
+    <div className="container mt-5">
       <div className="card shadow-sm">
         <div className="card-header">
           <h3 className="mb-0">建立訂單</h3>
@@ -116,7 +117,7 @@ function CreateOrder() {
               />
             </div>
 
-            <button type="submit" btn btn-primary>
+            <button type="submit" className="btn btn-outline-primary">
               送出訂單
             </button>
           </form>
