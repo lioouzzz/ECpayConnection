@@ -18,6 +18,7 @@ namespace Ecpay.Controllers.Api
         [HttpPost("create")]
         public IActionResult CreateOrder([FromBody] CreateOrderInputModel input)
         {
+
             var order = new OrderModel
             {
                 OrderNo = Guid.NewGuid().ToString(),
@@ -36,7 +37,8 @@ namespace Ecpay.Controllers.Api
             {
                 success = true,
                 orderId = newOrderId,
-                redirectUrl = Url.Action("OrderId", "Order", new { id = newOrderId })
+                redirectUrl = Url.Action("Detail", "Order", new { id = newOrderId }),
+
             });
 
         }
@@ -47,7 +49,7 @@ namespace Ecpay.Controllers.Api
             var order = _orderservice.GetOrderId(id);
             if (order == null) return NotFound();
 
-            return Json(new { order.Id, order.OrderNo, order.TotalAmount, order.Status, order.ItemName });
+            return Json(order);
         }
 
     }
