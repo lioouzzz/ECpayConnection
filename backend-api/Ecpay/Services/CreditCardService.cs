@@ -40,7 +40,6 @@ namespace Ecpay.Services
             return creditModel;
         }
 
-
         public bool CheckMacValueCb(IFormCollection form)
         {
             var data = new Dictionary<string, string>();
@@ -56,6 +55,8 @@ namespace Ecpay.Services
             }
 
             string checkMacValue = data["CheckMacValue"];
+
+            data.Remove("CheckMacValue");
 
             string newCheckMacValue = GenerateCheckMacValue(data);
             return string.Equals(checkMacValue, newCheckMacValue, StringComparison.OrdinalIgnoreCase);

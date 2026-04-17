@@ -23,7 +23,7 @@ namespace Ecpay.Controllers.Api
         }
 
         [HttpPost("checkout/{orderId}")]
-        public IActionResult Checkout(int orderId)
+        public IActionResult Checkout([FromRoute] int orderId)
         {
             var order = _orderService.GetOrderId(orderId);
 
@@ -62,19 +62,33 @@ namespace Ecpay.Controllers.Api
             });
         }
 
-        [HttpPost("return")]
+
+        // 給綠界伺服器呼叫
+        [HttpPost("Return")]
         public IActionResult Return([FromForm] EcpayCallbackModel callback)
         {
-            if (!_creditCardService.CheckMacValueCb(Request.Form))
-            {
-                return Content("0|Error");
-            }
+            var checkMac = _creditCardService.CheckMacValueCb(Request.Form);
+            var merchantTradeNo = callback.MerchantTradeNo;
+            var rtnCode = callback.RtnCode;
 
             var order = _orderService.GetMerchantTradeNo(callback.MerchantTradeNo);
+
+            if (!checkMac)
+            {
+                return Content("checkMac error");
+            }
+
+
             if (order == null)
             {
-                return Content("0|Error");
+                return Content("order not found");
             }
+
+            if (!_creditCardService.CheckMacValueCb(Request.Form))
+            {
+                return Content("??");
+            }
+
 
             if (callback.RtnCode == "1")
             {
@@ -87,14 +101,37 @@ namespace Ecpay.Controllers.Api
 
         [HttpPost("Result")]
 
+        //綠界瀏覽器導向這支
+
         public IActionResult Result([FromForm] EcpayCallbackModel callback)
         {
-            var orderNo = Uri.EscapeDataString(callback.MerchantTradeNo ?? string.Empty);
+            var merchantTradeNo = Uri.EscapeDataString(callback.MerchantTradeNo ?? string.Empty);
             var rtnCode = Uri.EscapeDataString(callback.RtnCode ?? string.Empty);
             var rtnMsg = Uri.EscapeDataString(callback.RtnMsg ?? string.Empty);
 
 
-            return Redirect($"/Payment/Result?orderNo={orderNo}&rtnCode={rtnCode}&rtnMsg={rtnMsg}");
+            return Redirect($"http://localhost:5173/Payment/Result?merchantTradeNo={merchantTradeNo}&rtnCode={rtnCode}&rtnMsg={rtnMsg}");
+        }
+
+
+        //查詢資料庫OrderStatus,可以確保綠界是否付款成功
+
+        [HttpGet("OrderStatus")]
+        public IActionResult GetOrderStatus([FromQuery] string merchantTradeNo)
+        {
+            var order = _orderService.GetMerchantTradeNo(merchantTradeNo);
+
+            if (order == null)
+            {
+                return NotFound(new { message = "找不到訂單" });
+            }
+
+            return Json(new
+            {
+                MerchantTradeNo = order.MerchantTradeNo,
+                Status = order.Status
+            });
+
         }
 
     }

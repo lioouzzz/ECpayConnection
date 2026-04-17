@@ -137,16 +137,6 @@ function OrderDetail() {
           </div>
 
           <div className="row mb-3">
-            <div className="col-md-3 fw-bold">交易編號</div>
-            <div className="col-md-9">{order.merchantTradeNo}</div>
-          </div>
-
-          <div className="row mb-3">
-            <div className="col-md-3 fw-bold">付款方式</div>
-            <div className="col-md-9">{order.paymentType}</div>
-          </div>
-
-          <div className="row mb-3">
             <div className="col-md-3 fw-bold">交易時間</div>
             <div className="col-md-9">{order.paymentDate}</div>
           </div>

@@ -10,5 +10,7 @@ namespace Ecpay.Models
         public string PaymentDate { get; set; } = string.Empty;
         public string PaymentType { get; set; } = string.Empty;
         public string SimulatePaid { get; set; } = string.Empty;
+        public string CheckMacValue { get; set; } = string.Empty;
+
     }
 }
