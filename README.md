@@ -31,6 +31,9 @@ Frontend → Backend → ECPay → Backend (Callback) → Database
 3. 顯示訂單詳細資訊
 4. 點擊付款後呼叫付款 API
 5. 動態建立表單並 POST 至綠界付款頁面
+   ![alt text](image.png)
+   ![alt text](image-1.png)
+   ![alt text](image-2.png)
 
 ### 如何執行
 
