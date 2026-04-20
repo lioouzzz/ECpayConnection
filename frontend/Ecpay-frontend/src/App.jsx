@@ -6,9 +6,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/Order/Create" />} />
         <Route path="/Order/Create" element={<CreateOrder />}></Route>
         <Route path="/Order/Detail/:id" element={<OrderDetail />}></Route>
-        <Route path="Payment/Result" element={<PaymentResult />}></Route>
+        <Route path="/Payment/Result" element={<PaymentResult />}></Route>
       </Routes>
     </BrowserRouter>
   );

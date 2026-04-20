@@ -34,7 +34,11 @@ function CreateOrder() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!data.totalAmount || Number(data.totalAmount <= 0)) {
+    if (
+      !data.totalAmount ||
+      Number(data.totalAmount <= 0) ||
+      isNaN(Number(data.totalAmount))
+    ) {
       setMessage("請輸入正確金額");
     }
     if (!data.itemName.trim()) {
