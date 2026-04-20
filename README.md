@@ -43,6 +43,12 @@ npm install
 npm run dev
 ```
 
+前端預設執行於：
+
+```
+http://localhost:5173
+```
+
 ---
 
 ## Backend
